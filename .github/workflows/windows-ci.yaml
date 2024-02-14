@@ -1,19 +1,18 @@
+---
 ame: PHP Web App CI
-
 on:
   push:
-    #branches:
+    # branches:
     #  - main
   pull_request:
-    #branches:
+    # branches:
     #  - main
-
 jobs:
   test:
     strategy:
       matrix:
         os: [windows-latest]
-        php_version: [7.4, 8.0] # Add more versions if needed
+        php_version: [7.4, 8.0]  # Add more versions if needed
     defaults:
       run:
         shell: msys2 {0}
@@ -21,19 +20,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Setup MSYS (provides 'bash' and other unix-tools on windows)
         uses: msys2/setup-msys2@v2
         with:
           msystem: UCRT64
           update: true
           install: git mingw-w64-ucrt-x86_64-gcc
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php_version }}
-          #ini-values: post_max_size=256M, max_execution_time=180
+          # ini-values: post_max_size=256M, max_execution_time=180
           extensions: >
             imagick
           tools: >
@@ -44,13 +41,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # phpts: ts  # ts for thread-safe, default nts
-
       - name: Setup MariaDB
         uses: ankane/setup-mariadb@v1
         with:
           # mariadb-version: ${{ matrix.mariadb-version }}
-          database: travis # Specify your database name
-
+          database: travis  # Specify your database name
       - name: Install Composer dependencies
         run: |
           mkdir -p htdocs/includes
@@ -61,7 +56,6 @@ jobs:
                         php-parallel-lint/php-console-highlighter ^0 \
                         php-parallel-lint/php-var-dump-check ~0.4
           which phpunit phpcs php-parallel-lint
-
       - name: Run Bash script
         run: |
           # Replace the following commands with your bash script commands
@@ -71,8 +65,7 @@ jobs:
           # bash script.sh arg1 arg2
           env
           echo bash path/to/your/bash/script.sh
-
       - name: Run PHPUnit tests
         if: false
-        run: |
+        run: |-
           phpunit --configuration phpunit.xml
