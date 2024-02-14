@@ -13,9 +13,6 @@ jobs:
       matrix:
         os: [windows-latest]
         php_version: [7.4, 8.0] # Add more versions if needed
-    defaults:
-      run:
-        shell: msys2 {0}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
@@ -73,6 +70,7 @@ jobs:
           install: git mingw-w64-ucrt-x86_64-gcc
 
       - name: Run Bash script
+        shell: msys2 {0}
         run: |
           # Replace the following commands with your bash script commands
           # Example:
