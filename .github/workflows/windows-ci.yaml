@@ -1,4 +1,4 @@
-name: PHP Web App CI
+ame: PHP Web App CI
 
 on:
   push:
@@ -35,15 +35,15 @@ jobs:
           php-version: ${{ matrix.php_version }}
           #ini-values: post_max_size=256M, max_execution_time=180
           extensions: >
-             imagick
+            imagick
           tools: >
-             composer:2.2.4, mbstring, mysqli,
-             phpunit:9.5, php-console-highlighter:0,
-             php-cs:3, phan
+            composer:2.2.4, mbstring, mysqli,
+            phpunit:9.5, php-console-highlighter:0,
+            php-cs:3, phan
           coverage: none
         env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            # phpts: ts  # ts for thread-safe, default nts
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # phpts: ts  # ts for thread-safe, default nts
 
       - name: Setup MariaDB
         uses: ankane/setup-mariadb@v1
@@ -60,21 +60,19 @@ jobs:
                         php-parallel-lint/php-parallel-lint ^1.2 \
                         php-parallel-lint/php-console-highlighter ^0 \
                         php-parallel-lint/php-var-dump-check ~0.4
-/bin/bash: line 1: 4: command not found
           which phpunit phpcs php-parallel-lint
 
       - name: Run Bash script
         run: |
-            # Replace the following commands with your bash script commands
-            # Example:
-            # ./script.sh arg1 arg2
-            # would be
-            # bash script.sh arg1 arg2
-            env
-            echo bash path/to/your/bash/script.sh
+          # Replace the following commands with your bash script commands
+          # Example:
+          # ./script.sh arg1 arg2
+          # would be
+          # bash script.sh arg1 arg2
+          env
+          echo bash path/to/your/bash/script.sh
 
       - name: Run PHPUnit tests
         if: false
         run: |
           phpunit --configuration phpunit.xml
-
