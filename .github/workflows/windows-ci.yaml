@@ -14,10 +14,20 @@ jobs:
       matrix:
         os: [windows-latest]
         php_version: [7.4, 8.0] # Add more versions if needed
+    defaults:
+      run:
+        shell: msys2 {0}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup MSYS (provides 'bash' and other unix-tools on windows)
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: UCRT64
+          update: true
+          install: git mingw-w64-ucrt-x86_64-gcc
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
