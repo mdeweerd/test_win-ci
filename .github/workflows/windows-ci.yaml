@@ -1,0 +1,61 @@
+name: PHP Web App CI
+
+on:
+  push:
+    #branches:
+    #  - main
+  pull_request:
+    #branches:
+    #  - main
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        php_version: [7.4, 8.0] # Add more versions if needed
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php_version }}
+          extensions: mbstring, mysqli # Add more extensions if needed
+
+      - name: Setup MariaDB
+        uses: ankane/setup-mariadb@v1
+        with:
+          # mariadb-version: ${{ matrix.mariadb-version }}
+          database: travis # Specify your database name
+          run: mysql -D travis -e 'SELECT VERSION()'
+
+      - name: Install Composer dependencies
+        if: false
+        run: |
+          composer -n config -g vendor-dir htdocs/includes
+          composer self-update 2.4.4
+          composer -n require phpunit/phpunit ^7.5 \
+                        php-parallel-lint/php-parallel-lint ^1.2 \
+                        php-parallel-lint/php-console-highlighter ^0 \
+                        php-parallel-lint/php-var-dump-check ~0.4 \
+                        squizlabs/php_codesniffer ^3
+
+      - name: Run PHPUnit tests
+        if: false
+        run: phpunit --configuration phpunit.xml
+
+      - name: Run Bash script
+        uses: mingw64/msys2-64bit@master
+        with:
+          commands: |
+            # Replace the following commands with your bash script commands
+            # Example:
+            # ./script.sh arg1 arg2
+            # would be
+            # bash script.sh arg1 arg2
+            env
+            export PATH="$PWD/htdocs/includes/bin:$PATH"
+            bash path/to/your/bash/script.sh
