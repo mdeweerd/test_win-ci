@@ -53,14 +53,8 @@ jobs:
                         php-parallel-lint/php-var-dump-check ~0.4 \
                         squizlabs/php_codesniffer ^3
 
-      - name: Run PHPUnit tests
-        if: false
-        run: phpunit --configuration phpunit.xml
-
       - name: Run Bash script
-        uses: mingw64/msys2-64bit@master
-        with:
-          commands: |
+        run: |
             # Replace the following commands with your bash script commands
             # Example:
             # ./script.sh arg1 arg2
@@ -69,3 +63,7 @@ jobs:
             env
             export PATH="$PWD/htdocs/includes/bin:$PATH"
             bash path/to/your/bash/script.sh
+      - name: Run PHPUnit tests
+        if: false
+        run: phpunit --configuration phpunit.xml
+
