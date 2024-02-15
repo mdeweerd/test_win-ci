@@ -15,6 +15,16 @@ jobs:
         php_version: [7.4, 8.0] # Add more versions if needed
     runs-on: ${{ matrix.os }}
     steps:
+      - run: |
+          echo phpunit=$PWD --configuration phpunit.xml
+          echo phpunit="$PWD" --configuration phpunit.xml
+          echo phpunit="$PWD" --configuration phpunit.xml
+      - shell: cmd '{0}'
+        run: |
+          echo phpunit=%PWD% --configuration phpunit.xml
+      - shell: cmd {0}
+        run: |
+          echo phpunit=%PWD% --configuration phpunit.xml
       - name: Checkout code
         uses: actions/checkout@v4
 
